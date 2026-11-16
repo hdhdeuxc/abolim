@@ -1,0 +1,76 @@
+from rubka.asynco import Robot , Message , filters
+import asyncio
+import re # برای استفاده از عبارات منظم
+
+# IMPORTANT: Replace "CJFABE0VVXJBDROGFZMHCHLYTALMNUQYEPKILJYUOBNCBCVTLIOCPXPMWURKCOHP" with your actual bot token.
+# It's highly recommended to load this from environment variables or a secure config file.
+TOKEN = "YOUR_BOT_TOKEN"
+bot = Robot(TOKEN)
+
+# ----------------------------
+# پاسخ‌های سخنگو و ساده
+# ----------------------------
+@bot.on_message(filters.text("سلام"))
+async def greeting_handler(app , message : Message):
+	await message.reply("سلام گل 🌹")
+
+@bot.on_message(filters.text("خوبی"))
+async def well_being_handler(app , message : Message):
+	await message.reply("ممنون، تو خوبی؟ 😊")
+
+@bot.on_message(filters.text("چخبر"))
+async def news_handler(app , message : Message):
+	await message.reply("سلامتی ✨")
+
+@bot.on_message(filters.text("ربات"))
+async def bot_identity_handler(app , message : Message ):
+	await message.reply("جانم؟ 🤖")
+
+# ----------------------------
+# دستورات پرسش و پاسخ
+# ----------------------------
+@bot.on_message(filters.text("سوال پیچ اول"))
+async def first_question_handler(app , message : Message):
+	await message.reply("چند سالته اسمت چیه دوست داشتی اسمت چی بود؟؟؟ 🤔")
+
+@bot.on_message(filters.text("سوال پیچ دو"))
+async def second_question_handler(app , message : Message):
+	await message.reply("اسم دوستت کدوم دوستت بزرگتر از خودته کدوم روز هفته؟ 🗓️")
+
+# ----------------------------
+# فیلتر کلمات نامناسب (با استفاده از عبارات منظم)
+# ----------------------------
+# این الگوها سعی می‌کنن حالت‌های مختلف فحاشی رو پوشش بدن.
+# شما می‌تونید الگوهای بیشتری اضافه کنید.
+profanity_patterns = [
+    r"کیر", r"کس", r"کص", r"جنده", r"ممه", r"کونی", r"لواط", r"تخمی",
+    r"خر", # ممکنه به اشتباه فیلتر بشه، اگر زیاد هست حذفش کن
+    r"عن", r"گوه", r"پدر سگ", r"مادر جنده",
+    # اضافه کردن الگوهای بیشتر در صورت نیاز
+]
+
+# کامباین کردن الگوها در یک عبارت منظم بزرگتر
+profanity_regex = re.compile("|".join(profanity_patterns), re.IGNORECASE)
+
+@bot.on_message(filters.text) # فیلتر روی همه‌ی پیام‌های متنی اعمال میشه
+async def profanity_filter_handler(app, message: Message):
+    user_text = getattr(message, "text", "") or ""
+    if user_text and profanity_regex.search(user_text):
+        await message.reply("ارسال فحش و کلمات نامناسب ممنوع است! 🚫")
+        try:
+            # سعی در حذف پیام برای جلوگیری از دیده‌شدن
+            await message.delete()
+        except Exception as e:
+            print(f"Error deleting message: {e}") # برای دیباگ
+            pass # اگر حذف پیام ممکن نبود، خطایی رخ ندهد
+
+# ----------------------------
+# اجرای ربات
+# ----------------------------
+if name == "main":
+    try:
+        asyncio.run(bot.run())
+    except KeyboardInterrupt:
+        print("Bot stopped manually.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
