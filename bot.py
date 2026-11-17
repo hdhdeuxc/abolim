@@ -1,4 +1,4 @@
-From rubpy import Client, filters
+from rubpy import Client, filters
 from rubpy.types import Update
 
 # ساخت کلاینت ربات با استفاده از توکن شما
