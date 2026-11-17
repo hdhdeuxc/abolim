@@ -1,15 +1,9 @@
-from rubpy import Client, filters
-from rubpy.types import Update
+from rubka import Bot
 
-# ساخت کلاینت ربات با استفاده از توکن شما
-bot = Client(name='my_bot', token='CJFABE0VVXJBDROGFZMHCHLYTALMNUQYEPKILJYUOBNCBCVTLIOCPXPMWURKCOHP')
+bot = Bot("CJFAE06VJXJBDROGFZHMCHLYTALMNUQYEPKJIJYOBNCBVCITOPXPWMWRKCOHP")
 
-@bot.on_message_updates(filters.text)
-async def updates(update: Update):
-    # چاپ پیام دریافتی در لاگ‌ها برای تست
-    print(update)
-    # پاسخ به کاربر برای تست سلامت ربات
-    await update.reply('سلام! ربات شما با موفقیت در رندر روشن شد. 🚀')
+@bot.on_message()
+def handle_message(message):
+    message.reply("سلام!")
 
-if __name__ == '__main__':
-    bot.run()
+bot.run()
