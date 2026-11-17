@@ -1,9 +1,18 @@
 from rubka import Bot
+from PIL import Image
 
+# راه‌اندازی ربات با توکن شما
 bot = Bot("CJFAE06VJXJBDROGFZHMCHLYTALMNUQYEPKJIJYOBNCBVCITOPXPWMWRKCOHP")
 
 @bot.on_message()
 def handle_message(message):
-    message.reply("سلام!")
+    try:
+        # پاسخ به پیام کاربر
+        message.reply("سلام! ربات با موفقیت فعال شد و آنلاین است.")
+    except Exception as e:
+        print(f"Error handling message: {e}")
 
-bot.run()
+if __name__ == "__main__":
+    print("Bot is starting...")
+    bot.run()
+    
