@@ -2,7 +2,7 @@ from rubka import Bot
 from PIL import Image
 
 # راه‌اندازی ربات با توکن شما
-bot = Bot("CJFAE06VJXJBDROGFZHMCHLYTALMNUQYEPKJIJYOBNCBVCITOPXPWMWRKCOHP")
+bot = Bot("CJFABE0VVXJBDROGFZMHCHLYTALMNUQYEPKILJYUOBNCBCVTLIOCPXPMWURKCOHP")
 
 @bot.on_message()
 def handle_message(message):
