@@ -1,18 +1,11 @@
-from rubka import Bot
-from PIL import Image
+from rubka.asynco import Robot, Message, filters
+import asyncio
 
-# راه‌اندازی ربات با توکن شما
-bot = Bot("CJFABE0VVXJBDROGFZMHCHLYTALMNUQYEPKILJYUOBNCBCVTLIOCPXPMWURKCOHP")
+TOKEN = "CJFABE0VVXJBDROGFZMHCHLYTALMNUQYEPKILJYUOBNCBCVTLIOCPXPMWURKCOHP"
+bot = Robot(TOKEN)
 
-@bot.on_message()
-def handle_message(message):
-    try:
-        # پاسخ به پیام کاربر
-        message.reply("سلام! ربات با موفقیت فعال شد و آنلاین است.")
-    except Exception as e:
-        print(f"Error handling message: {e}")
+@bot.on_message(filters.text("سلام"))
+async def salam_handler(app, message: Message):
+    await message.reply("سلام 🌸")
 
-if __name__ == "__main__":
-    print("Bot is starting...")
-    bot.run()
-    
+asyncio.run(bot.run())
